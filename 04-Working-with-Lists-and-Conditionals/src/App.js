@@ -6,18 +6,18 @@ import Person from "./Person/Person";
 class App extends Component {
   state = {
     persons: [
-      { name: "Max", age: 28 },
-      { name: "Manu", age: 29 },
-      { name: "Stephanie", age: 26 }
+      { id: "kj98d", name: "Max", age: 28 },
+      { id: "v8ska", name: "Manu", age: 29 },
+      { id: "o4dkl", name: "Stephanie", age: 26 }
     ]
   };
 
-  nameChangedHandler = event => {
+  nameChangedHandler = (event, id) => {
     this.setState({
       persons: [
-        { id: "kj98d", name: "Max", age: 28 },
-        { id: "v8ska", name: event.target.value, age: 29 },
-        { id: "o4dkl", name: "Stephanie", age: 30 }
+        { name: "Max", age: 28 },
+        { name: event.target.value, age: 29 },
+        { name: "Stephanie", age: 30 }
       ],
       otherState: "some other state",
       showPersons: false
@@ -58,6 +58,7 @@ class App extends Component {
                 name={person.name}
                 age={person.age}
                 click={() => this.deletePersonHandler(index)}
+                changed={event => this.nameChangedHandler(event, person.id)}
               />
             );
           })}
