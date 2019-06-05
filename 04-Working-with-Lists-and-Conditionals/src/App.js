@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 //import logo from "./logo.svg";
-import "./App.css";
-import Person from "./Person/Person";
 
+import Person from "./Person/Person";
+import ValidationComponent from "./components/ValidationComponent";
+import CharComponent from "./components/CharComponent";
+
+import "./App.css";
 class App extends Component {
   state = {
     persons: [
       { id: "kj98d", name: "Max", age: 28 },
       { id: "v8ska", name: "Manu", age: 29 },
       { id: "o4dkl", name: "Stephanie", age: 26 }
-    ]
+    ],
+    lengthText: 0,
+    letter: ""
   };
 
   nameChangedHandler = (event, id) => {
@@ -42,6 +47,21 @@ class App extends Component {
       showPersons: !doesShow
     });
   };
+  inputLength = e => {
+    const { name, value } = e.target;
+    if (name === "title") {
+      this.setState({
+        lengthText: value.length,
+        letter: value
+      });
+    }
+  };
+  clearString = () => {
+    this.setState({
+      lengthText: 0,
+      letter: ""
+    });
+  };
   render() {
     const style = {
       backgroundColor: "white",
@@ -69,6 +89,7 @@ class App extends Component {
         </div>
       );
     }
+
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
@@ -77,6 +98,16 @@ class App extends Component {
           Toggle Persons
         </button>
         {persons}
+
+        <div>
+          <input type="text" onChange={this.inputLength} name="title" />
+          <p> {this.state.lengthText}</p>
+          <ValidationComponent textLength={this.state.lengthText} />
+          <CharComponent
+            letters={this.state.letter}
+            onClick={this.clearString}
+          />
+        </div>
       </div>
     );
   }
