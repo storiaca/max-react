@@ -2,8 +2,8 @@ import React, { Component } from "react";
 //import logo from "./logo.svg";
 
 import Person from "./Person/Person";
-import ValidationComponent from "./components/ValidationComponent";
-import CharComponent from "./components/CharComponent";
+import Validation from "./components/Validation";
+import Char from "./components/Char";
 
 import "./App.css";
 class App extends Component {
@@ -13,8 +13,7 @@ class App extends Component {
       { id: "v8ska", name: "Manu", age: 29 },
       { id: "o4dkl", name: "Stephanie", age: 26 }
     ],
-    lengthText: 0,
-    letter: ""
+    userInput: ""
   };
 
   nameChangedHandler = (event, id) => {
@@ -47,19 +46,18 @@ class App extends Component {
       showPersons: !doesShow
     });
   };
-  inputLength = e => {
-    const { name, value } = e.target;
-    if (name === "title") {
-      this.setState({
-        lengthText: value.length,
-        letter: value
-      });
-    }
-  };
-  clearString = () => {
+  inputChangeHandler = e => {
     this.setState({
-      lengthText: 0,
-      letter: ""
+      userInput: e.target.value
+    });
+  };
+
+  deleteCharHandler = index => {
+    const text = this.state.userInput.split("");
+    text.splice(index, 1);
+    const updatedText = text.join("");
+    this.setState({
+      userInput: updatedText
     });
   };
   render() {
@@ -89,7 +87,15 @@ class App extends Component {
         </div>
       );
     }
-
+    const charList = this.state.userInput.split("").map((ch, i) => {
+      return (
+        <Char
+          character={ch}
+          key={i}
+          clicked={() => this.deleteCharHandler(i)}
+        />
+      );
+    });
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
@@ -100,13 +106,14 @@ class App extends Component {
         {persons}
 
         <div>
-          <input type="text" onChange={this.inputLength} name="title" />
-          <p> {this.state.lengthText}</p>
-          <ValidationComponent textLength={this.state.lengthText} />
-          <CharComponent
-            letters={this.state.letter}
-            onClick={this.clearString}
+          <input
+            type="text"
+            onChange={this.inputChangeHandler}
+            value={this.state.userInput}
           />
+          <p>{this.state.userInput}</p>
+          <Validation textLength={this.state.userInput.length} />
+          {charList}
         </div>
       </div>
     );
