@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 //import logo from "./logo.svg";
-
+import Radium from "radium";
 import Person from "./Person/Person";
 import Validation from "./components/Validation";
 import Char from "./components/Char";
@@ -120,4 +120,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Radium(App);
