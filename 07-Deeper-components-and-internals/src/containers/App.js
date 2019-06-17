@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 //import logo from "./logo.svg";
-import Person from "./Person/Person";
+import Person from "../components/Persons/Person/Person";
 
 import classes from "./App.module.css";
 
