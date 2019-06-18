@@ -46,6 +46,7 @@ class App extends Component {
 
   render() {
     let persons = null;
+    const { appTitle } = this.props;
     if (this.state.showPersons) {
       persons = (
         <Persons
@@ -58,6 +59,7 @@ class App extends Component {
     return (
       <div className={classes.App}>
         <Cockpit
+          title={appTitle}
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           clicked={this.togglePersonsHandler}
