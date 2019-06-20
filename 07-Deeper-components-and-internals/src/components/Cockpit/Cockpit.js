@@ -4,7 +4,12 @@ const Cockpit = props => {
   useEffect(() => {
     console.log("[Cockpit.js] useEffect");
     // Http request...
-  });
+    setTimeout(() => {
+      alert("Saved data to cloud");
+    }, 1000);
+  }, []);
+
+  //useEffect();
   const assignedClasses = [];
   let btnClass = "";
   if (props.showPerson) {
