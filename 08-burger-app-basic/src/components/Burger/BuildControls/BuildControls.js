@@ -3,7 +3,7 @@ import BuildControl from "./BuildControl/BuildControl";
 import classes from "./BuildControls.module.css";
 const controls = [
   { label: "Salad", type: "salad" },
-  { label: "Bacom", type: "bacom" },
+  { label: "Bacon", type: "bacon" },
   { label: "Cheese", type: "cheese" },
   { label: "Meat", type: "meat" }
 ];
@@ -16,6 +16,8 @@ const buildControls = props => {
             key={ctrl.label}
             label={ctrl.label}
             added={() => props.ingredientAdded(ctrl.type)}
+            removed={() => props.ingredientRemoved(ctrl.type)}
+            disabled={props.disabled[ctrl.type]}
           />
         );
       })}
