@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import "./NewPost.css";
-import { log } from "util";
 
 class NewPost extends Component {
   state = {
