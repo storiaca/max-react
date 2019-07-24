@@ -15,6 +15,8 @@ class NewPost extends Component {
     // for (let param of query.entries()) {
     //   console.log(param); // yields ['start', '5']
     // }
+
+    // If user is unauth => this.props.history.replace('/posts')
     console.log(this.props);
   }
 
