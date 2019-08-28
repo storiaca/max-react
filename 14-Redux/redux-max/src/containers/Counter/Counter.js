@@ -4,35 +4,6 @@ import CounterControl from "../../components/CounterControl/CounterControl";
 import CounterOutput from "../../components/CounterOutput/CounterOutput";
 
 class Counter extends Component {
-  state = {
-    counter: 0
-  };
-
-  counterChangedHandler = (action, value) => {
-    switch (action) {
-      case "inc":
-        this.setState(prevState => {
-          return { counter: prevState.counter + 1 };
-        });
-        break;
-      case "dec":
-        this.setState(prevState => {
-          return { counter: prevState.counter - 1 };
-        });
-        break;
-      case "add":
-        this.setState(prevState => {
-          return { counter: prevState.counter + value };
-        });
-        break;
-      case "sub":
-        this.setState(prevState => {
-          return { counter: prevState.counter - value };
-        });
-        break;
-    }
-  };
-
   render() {
     return (
       <div>
@@ -43,15 +14,12 @@ class Counter extends Component {
         />
         <CounterControl
           label="Decrement"
-          clicked={() => this.counterChangedHandler("dec")}
+          clicked={this.props.onDecrementCounter}
         />
-        <CounterControl
-          label="Add 5"
-          clicked={() => this.counterChangedHandler("add", 5)}
-        />
+        <CounterControl label="Add 5" clicked={this.props.onAddCounter} />
         <CounterControl
           label="Subtract 5"
-          clicked={() => this.counterChangedHandler("sub", 5)}
+          clicked={this.props.onSubtractCounter}
         />
       </div>
     );
@@ -66,7 +34,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onIncrementCounter: () => dispatch({ type: "INCREMENT" })
+    onIncrementCounter: () => dispatch({ type: "INCREMENT" }),
+    onDecrementCounter: () => dispatch({ type: "DECREMENT" }),
+    onAddCounter: () => dispatch({ type: "ADD" }),
+    onSubtractCounter: () => dispatch({ type: "SUBTRACT" })
   };
 };
 export default connect(
