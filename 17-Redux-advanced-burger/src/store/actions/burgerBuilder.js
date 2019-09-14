@@ -13,3 +13,11 @@ export const removeIngredient = name => {
     ingedientName: name
   };
 };
+
+export const setIngredients = ingredients => {
+  return {};
+};
+
+export const initIngredients = () => {
+  return dispatch => {};
+};
