@@ -1,5 +1,5 @@
 {
-  "name": "working-with-webpack-v3",
+  "name": "working-with-webpack-v4",
   "version": "1.0.0",
   "description": "Learning webpack",
   "main": "index.js",
@@ -12,7 +12,12 @@
   "author": "Aleksandar Ristic",
   "license": "MIT",
   "devDependencies": {
-    "webpack": "3.12.0",
+    "webpack": "^4.41.2",
     "webpack-dev-server": "3.9.0"
+  },
+  "dependencies": {
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "react-router-dom": "5.1.2"
   }
 }
