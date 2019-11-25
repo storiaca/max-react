@@ -3,7 +3,7 @@ import React from "react";
 import classes from "./PizzaImage.module.css";
 import PizzaImage from "../../assets/pizza.jpg";
 
-const PizzaImage = props => {
+const pizzaImage = props => {
   return (
     <div className={classes.PizzaImage}>
       <img src={PizzaImage} alt={PizzaImage} className={classes.PizzaImg} />
@@ -11,4 +11,4 @@ const PizzaImage = props => {
   );
 };
 
-export default PizzaImage;
+export default pizzaImage;
