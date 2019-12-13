@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import classes from "./Auth.module.css";
 import * as actions from "../../store/actions/index";
 import { updateObject, checkValidity } from "../../shared/utility";
-import classes from "./Auth.module.css";
+
 class Auth extends Component {
   state = {
     controls: {
@@ -43,7 +45,7 @@ class Auth extends Component {
   };
 
   componentDidMount() {
-    if (this.props.buildingBurger && this.props.authRedirectPath !== "/") {
+    if (!this.props.buildingBurger && this.props.authRedirectPath !== "/") {
       this.props.onSetAuthRedirectPath();
     }
   }
@@ -86,20 +88,18 @@ class Auth extends Component {
       });
     }
 
-    let form = formElementsArray.map(formElement => {
-      return (
-        <Input
-          key={formElement.id}
-          elementType={formElement.config.elementType}
-          elementConfig={formElement.config.elementConfig}
-          value={formElement.config.value}
-          invalid={!formElement.config.valid}
-          shouldValidate={formElement.config.validation}
-          touched={formElement.config.touched}
-          changed={event => this.inputChangedHandler(event, formElement.id)}
-        />
-      );
-    });
+    let form = formElementsArray.map(formElement => (
+      <Input
+        key={formElement.id}
+        elementType={formElement.config.elementType}
+        elementConfig={formElement.config.elementConfig}
+        value={formElement.config.value}
+        invalid={!formElement.config.valid}
+        shouldValidate={formElement.config.validation}
+        touched={formElement.config.touched}
+        changed={event => this.inputChangedHandler(event, formElement.id)}
+      />
+    ));
 
     if (this.props.loading) {
       form = <Spinner />;
@@ -141,6 +141,7 @@ const mapStateToProps = state => {
     authRedirectPath: state.auth.authRedirectPath
   };
 };
+
 const mapDispatchToProps = dispatch => {
   return {
     onAuth: (email, password, isSignup) =>
@@ -148,7 +149,5 @@ const mapDispatchToProps = dispatch => {
     onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/"))
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Auth);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
