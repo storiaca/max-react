@@ -119,7 +119,6 @@ function Ingredients() {
 
       <section>
         <Search onLoadIngredients={filterIngredientsHandler} />
-        {ingredientList}
       </section>
     </div>
   );
