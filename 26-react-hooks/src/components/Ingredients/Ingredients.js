@@ -4,6 +4,7 @@ import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
 import ErrorModal from "../UI/ErrorModal";
 import Search from "./Search";
+import useHttp from "../../hooks/http";
 
 const ingredientReducer = (currentIngredients, action) => {
   switch (action.type) {
@@ -20,6 +21,7 @@ const ingredientReducer = (currentIngredients, action) => {
 
 function Ingredients() {
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
+  const { isLoading, error, data, sendRequest } = useHttp();
 
   //const [userIngredients, setUserIngredients] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
@@ -35,34 +37,40 @@ function Ingredients() {
   }, []);
 
   const addIngredientHandler = useCallback(ingredient => {
-    dispatchHttp({ type: "SEND" });
-    fetch("https://react-hooks-update-560ef.firebaseio.com/ingredients.json", {
-      method: "POST",
-      body: JSON.stringify(ingredient),
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(response => {
-        dispatchHttp({ type: "RESPONSE" });
-        return response.json();
-      })
-      .then(responseData => {
-        // setUserIngredients(prevIngredients => [
-        //   ...prevIngredients,
-        //   { id: responseData.name, ...ingredient }
-        // ]);
-        dispatch({
-          type: "ADD",
-          ingredient: { id: responseData.name, ...ingredient }
-        });
-      });
+    // dispatchHttp({ type: "SEND" });
+    // fetch("https://react-hooks-update-560ef.firebaseio.com/ingredients.json", {
+    //   method: "POST",
+    //   body: JSON.stringify(ingredient),
+    //   headers: { "Content-Type": "application/json" }
+    // })
+    //   .then(response => {
+    //     dispatchHttp({ type: "RESPONSE" });
+    //     return response.json();
+    //   })
+    //   .then(responseData => {
+    //     // setUserIngredients(prevIngredients => [
+    //     //   ...prevIngredients,
+    //     //   { id: responseData.name, ...ingredient }
+    //     // ]);
+    //     dispatch({
+    //       type: "ADD",
+    //       ingredient: { id: responseData.name, ...ingredient }
+    //     });
+    //   });
   }, []);
 
-  const removeIngredientHandler = useCallback(ingredientId => {
-    dispatchHttp({ type: "SEND" });
-  }, []);
+  const removeIngredientHandler = useCallback(
+    ingredientId => {
+      sendRequest(
+        `https://react-hooks-update-560ef.firebaseio.com/ingredients/${ingredientId}.json`,
+        "DELETE"
+      );
+    },
+    [sendRequest]
+  );
 
   const clearError = useCallback(() => {
-    dispatchHttp({ type: "CLEAR" });
+    //dispatchHttp({ type: "CLEAR" });
   }, []);
 
   const ingredientList = useMemo(() => {
@@ -76,12 +84,10 @@ function Ingredients() {
 
   return (
     <div className="App">
-      {httpState.error && (
-        <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>
-      )}
+      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
       <IngredientForm
         onAddIngredient={addIngredientHandler}
-        loading={httpState.loading}
+        loading={isLoading}
       />
 
       <section>
