@@ -21,15 +21,15 @@ const ingredientReducer = (currentIngredients, action) => {
 
 function Ingredients() {
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
-  const { isLoading, error, data, sendRequest } = useHttp();
+  const { isLoading, error, data, sendRequest, reqExtra } = useHttp();
 
   //const [userIngredients, setUserIngredients] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState();
 
   useEffect(() => {
-    console.log("RENDERING INGREDIENTS", userIngredients);
-  }, [userIngredients]);
+    dispatch({ type: "DELETE", id: reqExtra });
+  }, [data, reqExtra]);
 
   const filterIngredientsHandler = useCallback(filterIngredients => {
     //setUserIngredients(filterIngredients);
@@ -63,7 +63,9 @@ function Ingredients() {
     ingredientId => {
       sendRequest(
         `https://react-hooks-update-560ef.firebaseio.com/ingredients/${ingredientId}.json`,
-        "DELETE"
+        "DELETE",
+        null,
+        ingredientId
       );
     },
     [sendRequest]
