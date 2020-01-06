@@ -28,7 +28,14 @@ function Ingredients() {
   // const [error, setError] = useState();
 
   useEffect(() => {
-    dispatch({ type: "DELETE", id: reqExtra });
+    if (reqExtra) {
+      dispatch({ type: "DELETE", id: reqExtra });
+    } else {
+      dispatch({
+        type: "ADD",
+        ingredient: { id: data.name, ...reqExtra }
+      });
+    }
   }, [data, reqExtra]);
 
   const filterIngredientsHandler = useCallback(filterIngredients => {
@@ -37,6 +44,12 @@ function Ingredients() {
   }, []);
 
   const addIngredientHandler = useCallback(ingredient => {
+    sendRequest(
+      "https://react-hooks-update-560ef.firebaseio.com/ingredients.json",
+      "POST",
+      JSON.stringify(ingredient),
+      ingredient
+    );
     // dispatchHttp({ type: "SEND" });
     // fetch("https://react-hooks-update-560ef.firebaseio.com/ingredients.json", {
     //   method: "POST",
