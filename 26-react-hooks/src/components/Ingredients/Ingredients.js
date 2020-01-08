@@ -27,7 +27,8 @@ function Ingredients() {
     data,
     sendRequest,
     reqExtra,
-    reqIdentifier
+    reqIdentifier,
+    clear
   } = useHttp();
 
   //const [userIngredients, setUserIngredients] = useState([]);
@@ -59,26 +60,6 @@ function Ingredients() {
         ingredient,
         "ADD_INGREDIENT"
       );
-      // dispatchHttp({ type: "SEND" });
-      // fetch("https://react-hooks-update-560ef.firebaseio.com/ingredients.json", {
-      //   method: "POST",
-      //   body: JSON.stringify(ingredient),
-      //   headers: { "Content-Type": "application/json" }
-      // })
-      //   .then(response => {
-      //     dispatchHttp({ type: "RESPONSE" });
-      //     return response.json();
-      //   })
-      //   .then(responseData => {
-      //     // setUserIngredients(prevIngredients => [
-      //     //   ...prevIngredients,
-      //     //   { id: responseData.name, ...ingredient }
-      //     // ]);
-      //     dispatch({
-      //       type: "ADD",
-      //       ingredient: { id: responseData.name, ...ingredient }
-      //     });
-      //   });
     },
     [sendRequest]
   );
@@ -96,10 +77,6 @@ function Ingredients() {
     [sendRequest]
   );
 
-  const clearError = useCallback(() => {
-    //dispatchHttp({ type: "CLEAR" });
-  }, []);
-
   const ingredientList = useMemo(() => {
     return (
       <IngredientList
@@ -111,7 +88,7 @@ function Ingredients() {
 
   return (
     <div className="App">
-      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
       <IngredientForm
         onAddIngredient={addIngredientHandler}
         loading={isLoading}
