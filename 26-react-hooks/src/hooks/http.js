@@ -2,7 +2,13 @@ import { useReducer, useCallback } from "react";
 const httpReducer = (curHttpState, action) => {
   switch (action.type) {
     case "SEND":
-      return { loading: true, error: null, data: null, extra: null };
+      return {
+        loading: true,
+        error: null,
+        data: null,
+        extra: null,
+        identifier: action.identifier
+      };
     case "RESPONSE":
       return {
         ...curHttpState,
@@ -23,39 +29,44 @@ const useHttp = () => {
     loading: false,
     error: null,
     data: null,
-    extra: null
+    extra: null,
+    identifier: null
   });
 
-  const sendRequest = useCallback((url, method, body, reqExtra) => {
-    dispatchHttp({ type: "SEND" });
-    fetch(url, {
-      method: method,
-      body: body,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => {
-        return response.json();
+  const sendRequest = useCallback(
+    (url, method, body, reqExtra, reqIdentifier) => {
+      dispatchHttp({ type: "SEND", identifier: reqIdentifier });
+      fetch(url, {
+        method: method,
+        body: body,
+        headers: {
+          "Content-Type": "application/json"
+        }
       })
-      .then(responseData => {
-        dispatchHttp({
-          type: "RESPONSE",
-          responseData: responseData,
-          extra: reqExtra
+        .then(response => {
+          return response.json();
+        })
+        .then(responseData => {
+          dispatchHttp({
+            type: "RESPONSE",
+            responseData: responseData,
+            extra: reqExtra
+          });
+        })
+        .catch(error => {
+          dispatchHttp({ type: "ERROR", errorMessage: error.message });
         });
-      })
-      .catch(error => {
-        dispatchHttp({ type: "ERROR", errorMessage: error.message });
-      });
-  }, []);
+    },
+    []
+  );
 
   return {
     isLoading: httpState.loading,
     data: httpState.data,
     error: httpState.error,
     sendRequest: sendRequest,
-    reqExtra: httpState.extra
+    reqExtra: httpState.extra,
+    reqIdentifier: httpState.identifier
   };
 };
 
