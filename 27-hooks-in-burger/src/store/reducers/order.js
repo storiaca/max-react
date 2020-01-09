@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
+
 const initialState = {
   orders: [],
   loading: false,
@@ -41,6 +42,7 @@ const fetchOrdersSuccess = (state, action) => {
 const fetchOrdersFail = (state, action) => {
   return updateObject(state, { loading: false });
 };
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PURCHASE_INIT:
